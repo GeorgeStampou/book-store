@@ -1,13 +1,9 @@
 import express from 'express';
+import { getAllBooks, createBook } from '../controllers/books.js';
 
 const router = express.Router();
 
-router.route('/').get((req, res) => {
-  res.send('Hello from books');
-});
-
-router.route('/hello').get((req, res) => {
-  res.send('Hello world from another place');
-});
+router.route('/').get(getAllBooks);
+router.route('/f').get(createBook);
 
 export default router;
