@@ -3,7 +3,7 @@ const getAllBooks = (req, res) => {
 };
 
 const createBook = (req, res) => {
-  res.send('Fff');
+  res.send('fff');
 };
 
 export { getAllBooks, createBook };
