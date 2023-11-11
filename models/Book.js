@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const BooksSchema = new mongoose.Schema({
+const BookSchema = new mongoose.Schema({
   title: {
     type: String,
     required: [true, 'must provide book title'],
@@ -9,14 +9,15 @@ const BooksSchema = new mongoose.Schema({
     type: Array,
   },
   publicationDate: {
-    type: Date,
+    type: String,
   },
-  ISBN: {
-    type: Number,
-    minlength: [13, 'ISBN too short, must be 13 numeric characters'],
-    maxlength: [13, 'ISBN too long, must be 13 numeric characters'],
+  isbn: {
+    type: String,
+    match: [/^\d+$/, 'Please provide a valid ISBN'],
+    minLength: [13, 'ISBN too short, must be 13 numeric characters'],
+    maxLength: [13, 'ISBN too long, must be 13 numeric characters'],
     unique: true,
   },
 });
 
-export { BooksSchema as Book };
+export default mongoose.model('Book', BookSchema);

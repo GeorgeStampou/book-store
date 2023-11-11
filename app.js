@@ -7,6 +7,8 @@ import connectDB from './db/connect.js';
 
 const app = express();
 
+app.use(express.json());
+
 app.use('/api/v1/books', router);
 
 const port = process.env.PORT || 3000;
