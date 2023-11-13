@@ -1,50 +1,36 @@
 import Book from '../models/Book.js';
 
 const getAllBooks = async (req, res) => {
-  const { authors } = req.query;
-  let books = {};
-  const authorsList = authors.split(',');
-  authorsList.flat();
-  // console.log(authorsList);
-  authorsList.forEach((author, index) => {
-    authorsList[index] = author.replace(/-/g, ' ');
-  });
+  const queryObject = {};
+  const { authors, title, genre } = req.query;
 
-  console.log(authorsList);
+  if (authors) {
+    const authorsList = authors.split(',');
+    authorsList.flat();
+
+    authorsList.forEach((author, index) => {
+      authorsList[index] = author.replace(/-/g, ' ');
+    });
+
+    queryObject.authors = {};
+    const operator = '$all';
+    queryObject.authors[operator] = authorsList;
+  }
+
+  if (title) {
+    queryObject.title = title;
+  }
+
+  if (genre) {
+    queryObject.genre = genre;
+  }
+
   try {
-    if (authorsList) {
-      books = await Book.find({ authors: { $all: authorsList } });
-    } else {
-      books = await Book.find({});
-    }
-    res.status(200).json({ books });
+    const books = await Book.find(queryObject);
+    res.status(200).json({ books, count: books.length });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-
-  // try {
-  //   const authorsList = authors.split(',');
-  //   console.log(authorsList);
-  //   if (authorsList && authors.length > 1) {
-  //     const newAuthorsList = [];
-  //     authorsList.map((author) => {
-  //       newAuthorsList.push(author.replace('-', ' '));
-  //     });
-  //     newAuthorsList.sort();
-  //     console.log(newAuthorsList);
-  //     books = await Book.find({ authors: newAuthorsList });
-  //     res.status(200).json({ books });
-  //   } else if (authorsList) {
-  //     const author = authorsList.replace('-', ' ');
-  //     books = await Book.find({ authors: author });
-  //     res.status(200).json({ books });
-  //   } else {
-  //     books = await Book.find({});
-  //     res.status(200).json(books);
-  //   }
-  // } catch (error) {
-  //   res.status(500).json({ message: error.message });
-  // }
 };
 
 const createBook = async (req, res) => {
