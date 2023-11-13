@@ -2,31 +2,53 @@ import Book from '../models/Book.js';
 
 const getAllBooks = async (req, res) => {
   const queryObject = {};
-  const { authors, title, genre } = req.query;
+  const { authors, title, genre, sort, select, limit, page } = req.query;
 
   if (authors) {
     const authorsList = authors.split(',');
     authorsList.flat();
 
-    authorsList.forEach((author, index) => {
-      authorsList[index] = author.replace(/-/g, ' ');
-    });
+    // authorsList.forEach((author, index) => {
+    //   authorsList[index] = author.replace(/-/g, ' ');
+    // });
 
     queryObject.authors = {};
+
+    // $all - Matches arrays that contain all elements specified in the query.
     const operator = '$all';
     queryObject.authors[operator] = authorsList;
   }
 
   if (title) {
-    queryObject.title = title;
+    queryObject.title = { $regex: title, $options: 'i' };
   }
 
   if (genre) {
     queryObject.genre = genre;
   }
 
+  let result = Book.find(queryObject);
+
+  if (sort) {
+    const sortWithoutCommas = sort.replaceAll(',', ' ');
+    result.sort(sortWithoutCommas);
+  } else {
+    result.sort('title');
+  }
+
+  if (select) {
+    const selectWIthoutCommas = select.replaceAll(',', ' ');
+    result.select(selectWIthoutCommas);
+  }
+
+  const pageNum = Number(page) || 1;
+  const limitNum = Number(limit) || 10;
+  const skip = (pageNum - 1) * limitNum;
+
+  result = result.skip(skip).limit(limitNum);
+
   try {
-    const books = await Book.find(queryObject);
+    const books = await result;
     res.status(200).json({ books, count: books.length });
   } catch (error) {
     res.status(500).json({ message: error.message });
