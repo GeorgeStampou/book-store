@@ -2,7 +2,8 @@ import Book from '../models/Book.js';
 
 const getAllBooks = async (req, res) => {
   const queryObject = {};
-  const { authors, title, genre, sort, select, limit, page } = req.query;
+  const { authors, title, genre, sort, select, limit, page, numFilters } =
+    req.query;
 
   if (authors) {
     const authorsList = authors.split(',');
@@ -25,6 +26,25 @@ const getAllBooks = async (req, res) => {
 
   if (genre) {
     queryObject.genre = genre;
+  }
+
+  if (numFilters) {
+    const operatorMap = {
+      '>': '$gt',
+      '>=': '$gte',
+      '=': '$eq',
+      '<': '$lt',
+      '<=': '$lte',
+    };
+    const regEx = /\b(<|>|>=|=|<|<=)\b/g;
+    let filter = numFilters.replace(
+      regEx,
+      (match) => `-${operatorMap[match]}-`
+    );
+    const [field, operator, value] = filter.split('-');
+    if (field === 'price') {
+      queryObject[field] = { [operator]: Number(value) };
+    }
   }
 
   let result = Book.find(queryObject);
