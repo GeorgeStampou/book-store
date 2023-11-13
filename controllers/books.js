@@ -1,12 +1,50 @@
 import Book from '../models/Book.js';
 
 const getAllBooks = async (req, res) => {
+  const { authors } = req.query;
+  let books = {};
+  const authorsList = authors.split(',');
+  authorsList.flat();
+  // console.log(authorsList);
+  authorsList.forEach((author, index) => {
+    authorsList[index] = author.replace(/-/g, ' ');
+  });
+
+  console.log(authorsList);
   try {
-    const books = await Book.find({});
-    res.status(200).json(books);
+    if (authorsList) {
+      books = await Book.find({ authors: { $all: authorsList } });
+    } else {
+      books = await Book.find({});
+    }
+    res.status(200).json({ books });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+
+  // try {
+  //   const authorsList = authors.split(',');
+  //   console.log(authorsList);
+  //   if (authorsList && authors.length > 1) {
+  //     const newAuthorsList = [];
+  //     authorsList.map((author) => {
+  //       newAuthorsList.push(author.replace('-', ' '));
+  //     });
+  //     newAuthorsList.sort();
+  //     console.log(newAuthorsList);
+  //     books = await Book.find({ authors: newAuthorsList });
+  //     res.status(200).json({ books });
+  //   } else if (authorsList) {
+  //     const author = authorsList.replace('-', ' ');
+  //     books = await Book.find({ authors: author });
+  //     res.status(200).json({ books });
+  //   } else {
+  //     books = await Book.find({});
+  //     res.status(200).json(books);
+  //   }
+  // } catch (error) {
+  //   res.status(500).json({ message: error.message });
+  // }
 };
 
 const createBook = async (req, res) => {
