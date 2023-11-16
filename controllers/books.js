@@ -101,4 +101,24 @@ const getBookByIsbn = async (req, res) => {
   }
 };
 
-export { getAllBooks, createBook, getBookByIsbn };
+const updateBook = async (req, res) => {
+  try {
+    const { isbn } = req.params;
+    if (!isbn) {
+      res.status(400).json({ message: `No isbn given` });
+    }
+    const book = await Book.findOneAndUpdate({ isbn: isbn }, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!book) {
+      res.status(404).json({ message: `No book with isbn: ${isbn} found.` });
+    } else {
+      res.status(200).json({ book });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export { getAllBooks, createBook, getBookByIsbn, updateBook };
