@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
+import BookList from './BookList';
 
 axios.defaults.baseURL = 'http://localhost:3000';
 
 function App() {
   const [books, setBooks] = useState([]);
+
+  const [loading, setLoading] = useState(true);
 
   const getBooks = async () => {
     try {
@@ -14,6 +17,7 @@ function App() {
       // console.log(data);
       // console.log(data.books);
       setBooks(data.books);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -23,12 +27,7 @@ function App() {
     getBooks();
   }, []);
 
-  return (
-    <>
-      <div>Hello from react + nodejs</div>
-      <div>f</div>
-    </>
-  );
+  return <>{loading ? <h1>Loading...</h1> : <BookList books={books} />}</>;
 }
 
 export default App;
