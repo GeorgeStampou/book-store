@@ -6,13 +6,28 @@ const Book = ({
   isbn,
   price,
   genre,
+  cover,
 }) => {
+  const authorsWithSpace = authors.join(', ');
+
   return (
     <article>
       <div className='book-poster'>
-        <img></img>
+        <img src={cover} alt={title} />
+        <div className='book-info'>
+          <p>
+            Author(s): {authorsWithSpace} <br />
+            Genre: {genre}
+            <br />
+            Publication date: {publicationDate}
+            <br />
+            Price: {price}€
+          </p>
+        </div>
       </div>
-      {id}, {title}, {authors}, {publicationDate}, {isbn}, {price}, {genre}
+      <div className='book-title'>
+        <h2>{title}</h2>
+      </div>
     </article>
   );
 };
