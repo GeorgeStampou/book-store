@@ -1,9 +1,49 @@
 article {
   border: 1px solid;
+  cursor: pointer;
 }
 
 .book-poster img {
   max-width: 100%;
   height: auto;
   width: 100%;
+}
+
+.book-poster {
+  position: relative;
+}
+
+.book-info {
+  position: absolute;
+  box-sizing: border-box;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+  font-size: 1.3rem;
+  color: #fff;
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.book-info:hover {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.book-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.book-title h2 {
+  font-weight: 600;
+}
+
+p span {
+  font-weight: 600;
 }
