@@ -1,0 +1,25 @@
+.full-info {
+  padding-top: 2%;
+  display: flex;
+  justify-content: center;
+}
+
+.left-body {
+  margin-right: 5%;
+}
+
+.right-body {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.right-body p {
+  font-size: 1.2rem;
+}
+
+img {
+  width: 80%;
+  height: auto;
+}
