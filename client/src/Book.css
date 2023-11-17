@@ -1,0 +1,9 @@
+article {
+  border: 1px solid;
+}
+
+.book-poster img {
+  max-width: 100%;
+  height: auto;
+  width: 100%;
+}

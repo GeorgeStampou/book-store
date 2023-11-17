@@ -1,0 +1,16 @@
+section {
+  text-align: center;
+}
+
+.book-list {
+  margin: 2% auto 0 auto;
+  max-width: 90vw;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  column-gap: 5%;
+  row-gap: 2%;
+}
+
+.title {
+  margin-top: 2%;
+}

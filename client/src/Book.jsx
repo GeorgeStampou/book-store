@@ -1,3 +1,5 @@
+import './Book.css';
+
 const Book = ({
   _id: id,
   title,
