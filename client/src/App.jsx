@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
 import BookList from './BookList';
+import Loading from './Loading';
 
 axios.defaults.baseURL = 'http://localhost:3000';
 
@@ -27,7 +28,7 @@ function App() {
     getBooks();
   }, []);
 
-  return <>{loading ? <h1>Loading...</h1> : <BookList books={books} />}</>;
+  return <>{loading ? <Loading /> : <BookList books={books} />}</>;
 }
 
 export default App;
