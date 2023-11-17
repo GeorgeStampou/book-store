@@ -90,8 +90,8 @@ const getBookByIsbn = async (req, res) => {
     if (!isbn) {
       res.status(400).json({ message: `No isbn given` });
     }
-    const book = await Book.find({ isbn });
-    if (book.length === 0) {
+    const book = await Book.findOne({ isbn });
+    if (!book) {
       res.status(404).json({ message: `No book with isbn: ${isbn} found.` });
     } else {
       res.status(200).json({ book });
