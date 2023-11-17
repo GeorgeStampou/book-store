@@ -14,3 +14,8 @@ section {
 .title {
   margin-top: 2%;
 }
+
+a {
+  text-decoration: none;
+  color: #000;
+}
